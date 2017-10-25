@@ -288,6 +288,7 @@ def predict():
     print "predict values for the first example in test set:"
     print predict_values
 
+
 if __name__ == "__main__":
     sgd_optimization_mnist()
     # predict()
