@@ -196,7 +196,7 @@ def sgd_AutoEncoders(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.g
         c = []
         for batch_index in range(n_train_batches):
             c.append(train_ae(batch_index))
-        print "Training epoch %d, cost %f" % epoch, numpy.mean(c, dtype='float64')
+        print "Training epoch %d, cost " % epoch, numpy.mean(c, dtype='float64')
     end_time = timeit.default_timer()
     training_time = end_time - start_time
 
@@ -227,7 +227,7 @@ def sgd_AutoEncoders(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.g
         c = []  # cost list
         for batch_index in range(n_train_batches):
             c.append(train_da(batch_index))
-        print "Training epoch %d, cost %f" % epoch, numpy.mean(c, dtype='float64')
+        print "Training epoch %d, cost " % epoch, numpy.mean(c, dtype='float64')
 
     end_time = timeit.default_timer()
     training_time = end_time - start_time
