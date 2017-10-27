@@ -153,6 +153,7 @@ def evaluate_LeNet5(learing_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nker
                                          x: valid_set_x[index * batch_size: (index +1) * batch_size],
                                          y: valid_set_y[index * batch_size: (index +1) * batch_size]
                                      })
+
     # create a list of gradients for all model parameters to be fit by gradient decent
     params = layer3.params + layer2.params + layer1.params + layer0.params
 
