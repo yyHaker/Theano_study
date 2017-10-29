@@ -78,7 +78,7 @@ class AutoEncoder(object):
         if not bvis:
             bvis = theano.shared(value=numpy.zeros(n_visible, dtype=theano.config.floatX), borrow=True)
         if not bhid:
-            bhid = theano.shared(value=numpy.zeros(n_hidden, dtype=theano.config.floatX), borrow=True)
+            bhid = theano.shared(value=numpy.zeros(n_hidden, dtype=theano.config.floatX), name='bhid', borrow=True)
 
         self.w = w
         self.bhid = bhid
@@ -141,7 +141,7 @@ class AutoEncoder(object):
 
         # sum over the size of a datapoint; if we are using minibatches, L will be a vector, with one entry
         # per example in minibatch
-        L = -T.sum(self.x * T.log(z) + (1 - self.x) * T.log(1 - 1), axis=1)
+        L = -T.sum(self.x * T.log(z) + (1 - self.x) * T.log(1 - z), axis=1)
         cost = T.mean(L)
 
         # compute the gradients of the cost
@@ -200,9 +200,9 @@ def sgd_AutoEncoders(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.g
     end_time = timeit.default_timer()
     training_time = end_time - start_time
 
-    print "The no corruption code for file " + os.path.split(__file__)[1] + " ran for %.2fm" % training_time/60.
+    print "The no corruption code for file " + os.path.split(__file__)[1] + " ran for %.2fm" % (training_time/60.)
 
-    image = Image.fromarray(tile_raster_images(X=ae.w.get_value(borrow=True).T, img_shape=(28*28),
+    image = Image.fromarray(tile_raster_images(X=ae.w.get_value(borrow=True).T, img_shape=(28, 28),
                                                tile_shape=(10, 10), tile_spacing=(1, 1)))
     image.save('filters_corruption_0.png')
 
@@ -232,7 +232,7 @@ def sgd_AutoEncoders(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.g
     end_time = timeit.default_timer()
     training_time = end_time - start_time
 
-    print "The 30% corruption code for file " + os.path.split(__file__)[1] + "run for %.2fm" % training_time/60.
+    print "The 30% corruption code for file " + os.path.split(__file__)[1] + "run for %.2fm" % (training_time/60.)
 
     image = Image.fromarray(tile_raster_images(X=da.w.get_value(borrow=True).T, img_shape=(28, 28),
                                                tile_shape=(10, 10), tile_spacing=(1, 1)))

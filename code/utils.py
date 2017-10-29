@@ -21,7 +21,7 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
                        scale_rows_to_unit_interval=True,
                        output_pixel_vals=True):
     """
-    Transform an array with one flattened image per row, into an array in
+    Transform an array with one flattened image per row into an array in
     which images are reshaped and layed out like tiles on a floor.
     This function is useful for visualizing datasets whose rows are images,
     and also columns of matrices for transforming those rows

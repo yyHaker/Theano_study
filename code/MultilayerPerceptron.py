@@ -102,7 +102,7 @@ class MLP(object):
 
 
 def sgd_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.001, n_epochs=1000,
-             dataset='mnist.pkl.gz', batch_size=200, n_hidden=500):
+             dataset='mnist.pkl.gz', batch_size=18, n_hidden=1000 ):
     """ Demonstrate stochastic gradient decent optimization for a multilayer perceptron.
 
     :param learning_rate: float
@@ -168,7 +168,7 @@ def sgd_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.001, n_epochs=1000,
     print "...training"
 
     # early stop parameters
-    patience = 10000
+    patience = 20000
     patience_increase = 2  # wait this much longer when a new best is found
     improvement_threshold = 0.995
     validation_frequence = min(n_train_batches, patience // 2)
@@ -210,13 +210,13 @@ def sgd_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.001, n_epochs=1000,
                     print "epoch %i, minibatch %i / %i, test error of best model %f %%" % \
                           (epoch, minibatch_index+1, n_train_batches, test_score * 100)
 
-            if patience < iter:
+            if patience <= iter:
                 done_looping = True
                 break
     end_time = timeit.default_timer()
     print "Optimization complete. Best validation score of %f %% obtained at iteration %i, with test " \
           "performance %f %%" % (best_validation_loss * 100, best_iter + 1, test_score * 100)
-    print "the code for file " + os.path.split(__file__)[1] + "ran for %.2fm" % ((end_time - start_time)/60.)
+    print "the code for file " + os.path.split(__file__)[1] + " ran for %.2fm" % ((end_time - start_time)/60.)
 
 
 if __name__ == '__main__':

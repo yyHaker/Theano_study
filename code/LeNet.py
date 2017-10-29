@@ -31,7 +31,7 @@ import timeit
 import numpy
 import theano
 from theano import tensor as T
-from theano.tensor.nnet import  conv2d
+from theano.tensor.nnet import conv2d
 from theano.tensor.signal import pool
 
 from LogisticRegression import LogisticRegression, load_data
@@ -235,4 +235,18 @@ def evaluate_LeNet5(learing_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz', nker
 
 
 if __name__ == '__main__':
-    evaluate_LeNet5()
+    evaluate_LeNet5(learing_rate=0.3, batch_size=45)
+
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 0.900901%, test 0.760761%, time 27.65m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 0.930931%, test 0.810811%, time 13.87m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 0.900901%, test 0.780781%, time 27.62m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 1.001001%, test 0.790791%, time 3.92m
+    # learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 0.940941%, test 0.770771%, time 15.35m
+    # learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=45 : validation 0.960961%, test 0.790791%, time 7.02m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=50 : validation 0.91%, test 0.81%, time 6.55m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=50 : validation 0.91%, test 0.80%, time 7.91m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=100 : validation 0.89%, test 0.82%, time 18.51m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=500 : validation 0.94%, test 0.83%, time 19.84m
+    #  learning rate=0.3 n_epoches=200, nkerns=[20, 50], batch_size=500 : validation 0.94%, test 0.85%, time 19.73m
+    # learning rate=0.1 n_epoches=200, nkerns=[20, 50], batch_size=500 : validation 0.98%, test 0.9%, time 19.75m
+    # learning rate=0.01 n_epoches=200, nkerns=[20, 50], batch_size=500 : validation 1.37%, test 1.19%, time 20.30m
