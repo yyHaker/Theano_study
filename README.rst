@@ -38,3 +38,8 @@ learn to realize basic deep learning algorithms use python theano
 ------------------
 
 - learning Theano basic operations from: http://deeplearning.net/software/theano_versions/0.9.X/tutorial/index.html
+- learning Logistic Regression from : http://deeplearning.net/tutorial/logreg.html
+- learning Multilayer Perceptron from : http://deeplearning.net/tutorial/mlp.html
+- learning Convolutional Neural Networks from :http://deeplearning.net/tutorial/lenet.html
+- learning Auto-encoders and denoising Auto-encoders from: http://deeplearning.net/tutorial/dA.html
+- learning Stacked Auto-encoders from: http://deeplearning.net/tutorial/SdA.html
