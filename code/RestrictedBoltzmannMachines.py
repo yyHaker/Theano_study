@@ -312,7 +312,7 @@ def test_rbm(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.gz', batc
         image = Image.fromarray(tile_raster_images(X=rbm.w.get_value(borrow=True).T, img_shape=(28, 28),
                                                    tile_shape=(10, 10), tile_spacing=(1, 1)))
         image.save('filters_at_epoch_%i.png' % epoch)
-        plotting_stop = timeit.default_timer
+        plotting_stop = timeit.default_timer()
         plotting_time += (plotting_stop - plotting_start)
 
     end_time = timeit.default_timer()
