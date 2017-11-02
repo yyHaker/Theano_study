@@ -69,7 +69,7 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
             out_array = numpy.zeros((out_shape[0], out_shape[1], 4),
                                     dtype=X.dtype)
 
-        #colors default to 0, alpha defaults to 1 (opaque)
+        # colors default to 0, alpha defaults to 1 (opaque)
         if output_pixel_vals:
             channel_defaults = [0, 0, 0, 255]
         else:
@@ -105,8 +105,10 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
             dt = 'uint8'
         out_array = numpy.zeros(out_shape, dtype=dt)
 
+        # begin to tile the images
         for tile_row in range(tile_shape[0]):
             for tile_col in range(tile_shape[1]):
+                # a 2-D array in which every row is a flattened image
                 if tile_row * tile_shape[1] + tile_col < X.shape[0]:
                     this_x = X[tile_row * tile_shape[1] + tile_col]
                     if scale_rows_to_unit_interval:
