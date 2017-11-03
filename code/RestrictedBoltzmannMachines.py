@@ -333,8 +333,11 @@ def test_rbm(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.gz', batc
                                                        dtype=theano.config.floatX))
 
     plot_every = 1000
+    # compile a theano function which performs one Gibbs step and updates the state of the persistent
+    # chain with the new visible sample.
     # define one step of Gibbs sampling (mf = mean - field)
     # define a function that does 'plot_every' steps before returning the sample for plotting
+    # gibbs_vhv return: [pre_sigmoid_h1, h1_mean, h1_sample, pre_sigmoid_v1, v1_mean, v1_sample]
     ([presig_hids, hid_mfs, hid_samples, presig_vis, vis_mfs, vis_samples], updates) = \
     theano.scan(rbm.gibbs_vhv, outputs_info=[None, None, None, None, None, persistent_vis_chain], n_steps=plot_every,
                 name='gibbs_vhv')
@@ -342,14 +345,15 @@ def test_rbm(learning_rate=0.1, training_epochs=15, dataset='mnist.pkl.gz', batc
     # add to updates the shared variable that takes care of our persistent chain
     updates.update({persistent_vis_chain: vis_samples[-1]})
 
-    # construct the function that implements our persistent chain
+    # construct the function that implements our persistent chain.
     # we generate the "mean field" activations for plotting and the actual
     # samples for reinitializing the state of our persistent chain
     sample_fn = theano.function(inputs=[], outputs=[vis_mfs[-1], vis_samples[-1]], updates=updates, name='sample_fn')
 
     # create a space to store the image for plotting (we need to leave room for the tile_spacing as well)
-    image_data = numpy.zeros((29 * n_samples + 1, 29 * n_chains -1), dtype='uint8')
+    image_data = numpy.zeros((29 * n_samples + 1, 29 * n_chains - 1), dtype='uint8')
 
+    # vis_mfs(n_chains, nv)
     for idx in range(n_samples):
         # generate `plot_every` intermediate samples that we discard,
         # because successive samples in the chain are too correlated

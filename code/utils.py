@@ -32,16 +32,17 @@ def tile_raster_images(X, img_shape, tile_shape, tile_spacing=(0, 0),
     :type img_shape: tuple; (height, width)
     :param img_shape: the original shape of each image
     :type tile_shape: tuple; (rows, cols)
-    :param tile_shape: the number of images to tile (rows, cols)
+    :param tile_shape: the number of images to tile (rows, cols)，
+     在每行每列上分别有多少个图像
     :param output_pixel_vals: if output should be pixel values (i.e. int8
-    values) or floats
+    values) or floats 是否以图像的形式进行显示
     :param scale_rows_to_unit_interval: if the values need to be scaled before
     being plotted to [0,1] or not
     :returns: array suitable for viewing as an image.
     (See:`Image.fromarray`.)
     :rtype: a 2-d array with same dtype as X.
     """
-
+    # 对参数进行断言，确保它们都是二维元组
     assert len(img_shape) == 2
     assert len(tile_shape) == 2
     assert len(tile_spacing) == 2
