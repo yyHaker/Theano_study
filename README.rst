@@ -43,3 +43,5 @@ learn to realize basic deep learning algorithms use python theano
 - learning Convolutional Neural Networks from :http://deeplearning.net/tutorial/lenet.html
 - learning Auto-encoders and denoising Auto-encoders from: http://deeplearning.net/tutorial/dA.html
 - learning Stacked Auto-encoders from: http://deeplearning.net/tutorial/SdA.html
+- learning Deep Belief Network from : http://deeplearning.net/tutorial/DBN.html#dbn
+- learning RecurrentNeural Networks from : http://www.wildml.com/2015/09/recurrent-neural-networks-tutorial-part-1-introduction-to-rnns/
