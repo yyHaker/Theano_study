@@ -47,13 +47,14 @@ class RBM(object):
             theano_rng = RandomStreams(numpy_rng.randint(2 ** 30))
 
         # initial w and hbias, vbias, create theano shared variables and bias
+
         if w is None:
             initial_w = numpy.asarray(numpy_rng.uniform(
                 low=-4 * numpy.sqrt(6. / (n_hidden + n_visible)),
                 high=4 * numpy.sqrt(6. / (n_hidden + n_visible)),
                 size=(n_visible, n_hidden)
             ), dtype=theano.config.floatX)
-        w = theano.shared(value=initial_w, name='w', borrow=True)
+            w = theano.shared(value=initial_w, name='w', borrow=True)
 
         if hbias is None:
             hbias = theano.shared(value=numpy.zeros(n_hidden, dtype=theano.config.floatX),
