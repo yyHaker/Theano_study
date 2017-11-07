@@ -150,6 +150,26 @@ def gradient_check_theano(model, x, y, h=0.001, error_thershold=0.01):
         print "Gradient check for parameters %s passed." % pname
 
 
+def test_rnn():
+
+    _VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '8000'))
+    _HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '80'))
+    _LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.005'))
+    _NEPOCH = int(os.environ.get('NEPOCH', '100'))
+    _MODEL_FILE = os.environ.get('MODEL_FILE')
+
+    vocabulary_size = _VOCABULARY_SIZE
+    unknown_token = "UNKNOWN_TOKEN"
+    sentence_start_token = "SENTENCE_START"
+    sentence_end_token = "SENTENCE_END"
+
+    # read data and append SENTENCE_START and SENTENCE_END tokens
+    print "Reading CSV file"
+    with open('data/reddit-comments-2015-08.csv', 'rb') as f:
+        reader = csv.reader(f, skipinitialspace=True)
+        reader.next()
+        # split full comments into sentences
+
 
 
 

@@ -189,7 +189,7 @@ class DBN(object):
         return train_fn, valid_socre, test_score
 
 
-def test_DBN(finetune_lr=0.1, pretraining_epoches=100, pretrain_lr=0.01, k=1, training_epochs=1000,
+def test_DBN(finetune_lr=0.1, pretraining_epoches=30, pretrain_lr=0.01, k=1, training_epochs=1000,
              dataset='mnist.pkl.gz', batch_size=10):
     """
     Demonstrate how to train and test a Deep Belief Network.
@@ -233,7 +233,7 @@ def test_DBN(finetune_lr=0.1, pretraining_epoches=100, pretrain_lr=0.01, k=1, tr
             print "Pre-training layer %i, epoch %d, cost  " % (i, epoch), numpy.mean(c)
     end_time = timeit.default_timer()
     print "The pretraining code for file " + os.path.split(__file__)[1] + " ran for %.2fm " \
-                                                                          % (end_time - start_time) / 60.
+                                                                          % ((end_time - start_time) / 60.)
 
     # get the training, validation and testing function for the model
     print ".....getting the finetuning functions"
@@ -290,11 +290,9 @@ def test_DBN(finetune_lr=0.1, pretraining_epoches=100, pretrain_lr=0.01, k=1, tr
     end_time = timeit.default_timer()
     print "Optimization complete with best validation score of %f %%, obtained at iteration %i, " \
           "with test performance %f %%" % (best_validation_loss * 100, best_iter + 1, test_socre * 100.)
-    print "The fine tuning code for file " + os.path.split(__file__)[1] + " ran for %.2fm" %\
-                                                                          (end_time - start_time) / 60.
+    print "The fine tuning code for file " + os.path.split(__file__)[1] + " ran for %.2fm"\
+                                                                          % ((end_time - start_time) / 60.)
 
 
 if __name__ == "__main__":
     test_DBN()
-
-
