@@ -211,6 +211,8 @@ def train_with_sgd(model, X_train, Y_train, learning_rate=0.005, nepoch=100, eva
         print "epoch %d done......." % epoch
 
 
+
+
 def test_rnn():
 
     nltk.download("book")
@@ -278,17 +280,51 @@ def test_rnn():
     print "X_train[0]: ", X_train[0]
     print "Y_train[0]: ", Y_train[0]
 
+    """
+    train the rnn
+    """
+    # np.random.seed(10)
+    # model = RNN(word_dim=vocabulary_size, hidden_dim=100)
+    # t1 = time.time()
+    # model.sgd_step(X_train[10], Y_train[10], _LEARNING_RATE)
+    # t2 = time.time()
+    # print "SGD Step time: %f milliseconds " % ((t2 - t1) * 1000.)
+
+    #if _MODEL_FILE !=None:
+    #    load_model_parameters_theano(_MODEL_FILE, model)
+
+    # train_with_sgd(model, X_train[:100], Y_train[:100], nepoch=100, learning_rate=0.005, evaluate_loss_after=1)
+
+    """
+    using the trained parameters
+    """
+    print ".......generate sentences........."
     np.random.seed(10)
-    model = RNN(word_dim=vocabulary_size, hidden_dim=100)
-    t1 = time.time()
-    model.sgd_step(X_train[10], Y_train[10], _LEARNING_RATE)
-    t2 = time.time()
-    print "SGD Step time: %f milliseconds " % ((t2 - t1) * 1000.)
+    model = RNN(vocabulary_size, hidden_dim=50)
+    load_model_parameters_theano('../data/rnn/trained-model-theano.npz', model)
 
-    if _MODEL_FILE !=None:
-        load_model_parameters_theano(_MODEL_FILE, model)
+    def generate_sentence(model):
+        # we start the sentence with the start token
+        new_sentence = [word_to_index[sentence_start_token]]
+        # repeat until we get an end token
+        while not new_sentence[-1] == word_to_index[sentence_end_token]:
+            next_word_probs = model.forward_propagation(new_sentence)
+            sampled_word = word_to_index[unknown_token]
+            # we don't want to sample unknown words
+            while sampled_word == word_to_index[unknown_token]:
+                samples = np.random.multinomial(1, next_word_probs[-1])
+                sampled_word = np.argmax(samples)
+            new_sentence.append(sampled_word)
+        sentence_str = [index_to_word[x] for x in new_sentence[1: -1]]
+        return sentence_str
 
-    train_with_sgd(model, X_train[:100], Y_train[:100], nepoch=100, learning_rate=0.005, evaluate_loss_after=1)
+    num_sentences = 10
+    sentence_min_length = 7
+    for i in range(num_sentences):
+        sent = []
+        while len(sent) < sentence_min_length:
+            sent = generate_sentence(model)
+        print " ".join(sent)
 
 
 if __name__ == '__main__':
