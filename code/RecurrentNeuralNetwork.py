@@ -61,8 +61,8 @@ class RNN(object):
             o_t = T.nnet.softmax(V.dot(s_t))
             # print s_t.shape, type(s_t)
             # print "o_t[0]: ", o_t[0], o_t.shape, type(o_t)
-            theano.pp(s_t)
-            theano.pp(o_t)
+            # print s_t.eval()
+            # print o_t.eval()
             return [o_t[0], s_t]               # why 0_t[0] ?
         [o, s], updates = theano.scan(fn=forward_prop_step, sequences=x,
                                       outputs_info=[None, dict(initial=T.zeros(self.hidden_dim))],
@@ -172,15 +172,15 @@ def load_model_parameters_theano(path, model):
     print "Loaded model parameters from %s. hidden_dim=%d word_dim=%d" % (path, U.shape[0], U.shape[1])
 
 
-def train_with_sgd(model, X_train, Y_train, learning_rate=0.005, nepoch=1, evaluate_loss_after=5):
+def train_with_sgd(model, X_train, Y_train, learning_rate=0.005, nepoch=100, evaluate_loss_after=5):
     """
 
     :param model: an RNN object
     :param X_train: a set of sentences and every sentence is tokenized, i.e. [[0, 179, 341, 416]]
     :param Y_train: same as X_train but shift by one position, i.e. [[179, 341, 416, 1]]
     :param learning_rate: float , learning_rate
-    :param nepoch:
-    :param evaluate_loss_after:
+    :param nepoch:iterate numbers
+    :param evaluate_loss_after: every several epochs to evaluate loss
     :return:
     """
     losses = []
@@ -201,12 +201,14 @@ def train_with_sgd(model, X_train, Y_train, learning_rate=0.005, nepoch=1, evalu
             sys.stdout.flush()
 
             # saving model parameters
-            save_model_parameters_theano("./data/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
-        # for each training example
+            save_model_parameters_theano("../data/rnn/rnn-theano-%d-%d-%s.npz" % (model.hidden_dim, model.word_dim, time), model)
+
         for i in range(len(Y_train)):
+            # for each training example.....
             # One SGD step
             model.sgd_step(X_train[i], Y_train[i], learning_rate)
             num_examples_seen += 1
+        print "epoch %d done......." % epoch
 
 
 def test_rnn():
@@ -276,7 +278,8 @@ def test_rnn():
     print "X_train[0]: ", X_train[0]
     print "Y_train[0]: ", Y_train[0]
 
-    model = RNN(word_dim=vocabulary_size, hidden_dim=_HIDDEN_DIM)
+    np.random.seed(10)
+    model = RNN(word_dim=vocabulary_size, hidden_dim=100)
     t1 = time.time()
     model.sgd_step(X_train[10], Y_train[10], _LEARNING_RATE)
     t2 = time.time()
@@ -285,7 +288,7 @@ def test_rnn():
     if _MODEL_FILE !=None:
         load_model_parameters_theano(_MODEL_FILE, model)
 
-    train_with_sgd(model, X_train, Y_train, nepoch=_NEPOCH, learning_rate=_LEARNING_RATE)
+    train_with_sgd(model, X_train[:100], Y_train[:100], nepoch=100, learning_rate=0.005, evaluate_loss_after=1)
 
 
 if __name__ == '__main__':

@@ -14,6 +14,7 @@ B1 = [[0.1],
      [0.2],
      [0.3]]
 C1 = [[0.1, 0.2, 0.3]]  # 1x3
+D1 = [0.2, 0.4, 0.5]
 # numpy.dot
 print "-----------numpy.dot-----------"
 A1 = np.asarray(A1)
@@ -50,3 +51,11 @@ print F2
 print type(F2)
 print F2.shape  # 1x3
 
+print A1[:, 2]
+print A1[:, 2].shape
+
+print ".............(3L, 3L).dot((3L,))......"
+G1 = f(A1, D1)
+print G1
+print type(G1)
+print G1.shape
