@@ -41,7 +41,7 @@ class RNN(object):
 
         # create shared variables
         self.U = theano.shared(name='U', value=U.astype(theano.config.floatX))
-        self.V = theano.shared(name='V', value=U.astype(theano.config.floatX))
+        self.V = theano.shared(name='V', value=V.astype(theano.config.floatX))
         self.W = theano.shared(name='W', value=W.astype(theano.config.floatX))
 
         # store the theano graph
@@ -55,9 +55,14 @@ class RNN(object):
 
         # each time propagation step
         def forward_prop_step(x_t, s_t_pre, U, V, W):
-            # Note that we are indexing U by x_t. This is the same as multiplying U with a one-hot vector.
-            s_t = T.tanh(U[:, x_t] + T.dot(W, s_t_pre))
-            o_t = T.nnet.softmax(T.dot(V, s_t))
+            # Note that we are indexing U by x_t . This is the same as multiplying U with a one-hot vector.
+            # here x_t is a real number, i.e. 34
+            s_t = T.tanh(U[:, x_t] + W.dot(s_t_pre))
+            o_t = T.nnet.softmax(V.dot(s_t))
+            # print s_t.shape, type(s_t)
+            # print "o_t[0]: ", o_t[0], o_t.shape, type(o_t)
+            theano.pp(s_t)
+            theano.pp(o_t)
             return [o_t[0], s_t]               # why 0_t[0] ?
         [o, s], updates = theano.scan(fn=forward_prop_step, sequences=x,
                                       outputs_info=[None, dict(initial=T.zeros(self.hidden_dim))],
@@ -209,7 +214,7 @@ def test_rnn():
     nltk.download("book")
 
     _VOCABULARY_SIZE = int(os.environ.get('VOCABULARY_SIZE', '8000'))
-    _HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '80'))
+    _HIDDEN_DIM = int(os.environ.get('HIDDEN_DIM', '100'))
     _LEARNING_RATE = float(os.environ.get('LEARNING_RATE', '0.005'))
     _NEPOCH = int(os.environ.get('NEPOCH', '100'))
     _MODEL_FILE = os.environ.get('MODEL_FILE')
@@ -229,7 +234,7 @@ def test_rnn():
         # append SENTENCE_START, SENTENCE_END tokens
         sentences = ["%s %s %s" % (sentence_start_token, x, sentence_end_token) for x in sentences]
     print "Parsed %d sentences ." % (len(sentences))
-    print ".......sample sentences"
+    print ".......sample 4 sentences"
     print sentences[0]
     print sentences[1]
     print sentences[2]
@@ -275,7 +280,7 @@ def test_rnn():
     t1 = time.time()
     model.sgd_step(X_train[10], Y_train[10], _LEARNING_RATE)
     t2 = time.time()
-    print "SGD Step time: %f milliseconds " % (t2 - t1) * 1000.
+    print "SGD Step time: %f milliseconds " % ((t2 - t1) * 1000.)
 
     if _MODEL_FILE !=None:
         load_model_parameters_theano(_MODEL_FILE, model)
