@@ -318,7 +318,7 @@ def test_rnn():
         sentence_str = [index_to_word[x] for x in new_sentence[1: -1]]
         return sentence_str
 
-    num_sentences = 10
+    num_sentences = 1000
     sentence_min_length = 7
     for i in range(num_sentences):
         sent = []
